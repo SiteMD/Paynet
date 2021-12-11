@@ -1,0 +1,29 @@
+{
+   "name": "paynet/paynet",
+   "type": "library",
+   "description": "E-Commerce Paynet",
+   "keywords": [
+      "paynet"
+   ],
+   "license": "MIT",
+   "minimum-stability": "dev",
+   "authors": [
+      {
+         "name": "Iulian Ceapa",
+         "email": "info@sitemd.net",
+         "role": "Lead Developer"
+      },
+      {
+         "name": "paynet.md",
+         "role": "Contributors"
+      }
+   ],
+   "require": {
+      "php": ">=5.6"
+   },
+   "autoload": {
+      "psr-4": {
+         "Paynet\\": "src/"
+      }
+   }
+}
