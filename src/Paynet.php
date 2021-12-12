@@ -91,7 +91,7 @@ class Paynet
 	/**
 	 * Язык страницы Paynet.
 	 *
-	 * @param string $lang Язык способов оплаты: a)	ro b) ru c)	en
+	 * @param string $lang Язык способов оплаты: a) ro b) ru c) en
 	 * @return void
 	 */
 	public function setLang($lang)
@@ -102,7 +102,7 @@ class Paynet
 	/**
 	 * Уникальный идентификатор заказа.
 	 *
-	 * @param int $id Уникальный идентификатор заказа.
+	 * @param int $id Уникальный идентификатор заказа
 	 * @return void
 	 */
 	public function setExternalID($id)
@@ -331,8 +331,11 @@ class Paynet
 		if ($token->code == PaynetCode::CODE_SUCCESS) {
 			$api = $this->callApi($path, "POST", $params, $token->data);
 			if ($api->code == PaynetCode::CODE_SUCCESS) {
-				$result->code = $api->code;
-				if (!array_key_exists("Code", $api->data)) {
+				if (array_key_exists("Code", $api->data)) {
+					$result->code = $api->data["Code"];
+					$result->message = $api->data["Message"];
+				} else {
+					$result->code = $api->code;
 					$form = "<style>#paynet{text-align:center;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column}#paynet svg{height:42.5px}#paynet div{font:15px Arial;margin: 0.75rem 0;}#paynet button{font:15px Arial;line-height:1.5;color:#fff;display:inline-block;padding:0.438rem 0.75rem;background:#52616D;border:unset;border-radius:5px}#paynet button:hover{cursor:pointer}</style>";
 					// URL подключения
 					if ($this->payment_mode === 0) {
@@ -353,9 +356,46 @@ class Paynet
 						'</form>' .
 						'<script nonce="app">setTimeout(function(){document.getElementById("paynet").submit();}, 3000);</script>';
 					$result->data = $form;
-				} else {
+				}
+			} else {
+				$result->code = $api->code;
+				$result->message = $api->message;
+			}
+		} else {
+			$result->code = $token->code;
+			$result->message = $token->message;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Получение информации о зарегистрированном платеже.
+	 * 
+	 * Данный сервис метод предназначен для получения информации о платеже. Может использоваться в 
+	 * случае проблем связи на момент оплаты либо использовании информации об операци.
+	 * Идентификатор `id` можно указать и через метод `setExternalID($id)`.
+	 *
+	 * @param int $id Уникальный идентификатор заказа
+	 * @return object
+	 */
+	public function getStatusPayment($id = null)
+	{
+		$path = "/api/Payments";
+		$params = ($id) ? ["ExternalID" => $id] : ["ExternalID" => $this->externalId];
+
+		$token = $this->getToken();
+		$result = new PaynetResult();
+
+		if ($token->code == PaynetCode::CODE_SUCCESS) {
+			$api = $this->callApi($path, "GET", $params, $token->data);
+			if ($api->code == PaynetCode::CODE_SUCCESS) {
+				if (array_key_exists("Code", $api->data)) {
 					$result->code = $api->data["Code"];
 					$result->message = $api->data["Message"];
+				} else {
+					$result->code = $api->code;
+					$result->data = $api->data;
 				}
 			} else {
 				$result->code = $api->code;
