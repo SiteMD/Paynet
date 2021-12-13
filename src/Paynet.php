@@ -246,7 +246,7 @@ class Paynet
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		$out = curl_exec($curl);
 		if ($out === false) {
-			// Если произошла ошибка, запомнит и вернем false
+			// Если произошла ошибка
 			$result->code = PaynetCode::CODE_CONNECTION_ERROR;
 			$result->message = curl_error($curl) . ", " . curl_errno($curl);
 		} else {
@@ -288,8 +288,7 @@ class Paynet
 				if (array_key_exists("error", $api->data)) $result->message = $api->data["error"];
 			}
 		} else {
-			$result->code = $api->code;
-			$result->message = $api->message;
+			$result = $api;
 		}
 
 		return $result;
@@ -358,12 +357,10 @@ class Paynet
 					$result->data = $form;
 				}
 			} else {
-				$result->code = $api->code;
-				$result->message = $api->message;
+				$result = $api;
 			}
 		} else {
-			$result->code = $token->code;
-			$result->message = $token->message;
+			$result = $token;
 		}
 
 		return $result;
@@ -398,12 +395,10 @@ class Paynet
 					$result->data = $api->data;
 				}
 			} else {
-				$result->code = $api->code;
-				$result->message = $api->message;
+				$result = $api;
 			}
 		} else {
-			$result->code = $token->code;
-			$result->message = $token->message;
+			$result = $token;
 		}
 
 		return $result;
