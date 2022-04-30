@@ -1,12 +1,12 @@
 {
-   "name": "paynet/paynet",
-   "type": "library",
+   "name": "sitemd/paynet",
    "description": "E-Commerce Paynet",
+   "type": "library",
    "keywords": [
-      "paynet"
+      "paynet",
+      "sitemd"
    ],
    "license": "MIT",
-   "minimum-stability": "dev",
    "authors": [
       {
          "name": "Iulian Ceapa",
@@ -25,5 +25,6 @@
       "psr-4": {
          "Paynet\\": "src/"
       }
-   }
+   },
+   "minimum-stability": "dev"
 }
