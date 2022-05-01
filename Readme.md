@@ -7,7 +7,7 @@
 Установить библиотеку можно с помощью интерфейса командной строки при наличии Composer:
 
 ```bash
-composer require paynet/paynet
+composer require sitemd/paynet
 ```
 
 ## Использование
