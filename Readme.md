@@ -164,7 +164,6 @@ $paynet->getToken();
 
 ```php
 use Paynet\Paynet;
-use Paynet\PaynetCode;
 // Подключение автозагрузчика
 require "vendor/autoload.php";
 // Укажите ваши данные
@@ -218,7 +217,5 @@ $address = "Payer address";
 $paynet->setCustomer($code, $nameFirst, $nameLast, $phoneNumber, $email, $country, $city, $address);
 // Инициализация оплаты
 $initPayment = $paynet->initServerServerPayment();
-if ($initPayment->code == PaynetCode::CODE_SUCCESS) {
-   echo $initPayment->data;
-}
+if ($initPayment->code == 0) echo $initPayment->data;
 ```

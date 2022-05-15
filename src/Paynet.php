@@ -7,7 +7,6 @@
 
 namespace Paynet;
 
-use Paynet\PaynetCode;
 use Paynet\PaynetResult;
 use Paynet\Exceptions\PaynetException;
 
@@ -247,11 +246,11 @@ class Paynet
 		$out = curl_exec($curl);
 		if ($out === false) {
 			// Если произошла ошибка
-			$result->code = PaynetCode::CODE_CONNECTION_ERROR;
+			$result->code = PaynetResult::CODE_CONNECTION_ERROR;
 			$result->message = curl_error($curl) . ", " . curl_errno($curl);
 		} else {
 			// Нет ошибки, расшифруем ответ JSON
-			$result->code = PaynetCode::CODE_SUCCESS;
+			$result->code = PaynetResult::CODE_SUCCESS;
 			$result->data = json_decode($out, true);
 		}
 		curl_close($curl);
@@ -275,7 +274,7 @@ class Paynet
 		$api = $this->callApi($path, "POST", $params);
 		$result = new PaynetResult;
 
-		if ($api->code == PaynetCode::CODE_SUCCESS) {
+		if ($api->code == PaynetResult::CODE_SUCCESS) {
 			if (array_key_exists("access_token", $api->data)) {
 				$result->code = $api->code;
 				$result->data = [
@@ -283,7 +282,7 @@ class Paynet
 					"Content-Type: application/json"
 				];
 			} else {
-				$result->code = PaynetCode::CODE_USERNAME_OR_PASSWORD_WRONG;
+				$result->code = PaynetResult::CODE_USERNAME_OR_PASSWORD_WRONG;
 				if (array_key_exists("Message", $api->data)) $result->message = $api->data["Message"];
 				if (array_key_exists("error", $api->data)) $result->message = $api->data["error"];
 			}
@@ -327,9 +326,9 @@ class Paynet
 		$token = $this->getToken();
 		$result = new PaynetResult();
 
-		if ($token->code == PaynetCode::CODE_SUCCESS) {
+		if ($token->code == PaynetResult::CODE_SUCCESS) {
 			$api = $this->callApi($path, "POST", $params, $token->data);
-			if ($api->code == PaynetCode::CODE_SUCCESS) {
+			if ($api->code == PaynetResult::CODE_SUCCESS) {
 				if (array_key_exists("Code", $api->data)) {
 					$result->code = $api->data["Code"];
 					$result->message = $api->data["Message"];
@@ -384,9 +383,9 @@ class Paynet
 		$token = $this->getToken();
 		$result = new PaynetResult();
 
-		if ($token->code == PaynetCode::CODE_SUCCESS) {
+		if ($token->code == PaynetResult::CODE_SUCCESS) {
 			$api = $this->callApi($path, "GET", $params, $token->data);
-			if ($api->code == PaynetCode::CODE_SUCCESS) {
+			if ($api->code == PaynetResult::CODE_SUCCESS) {
 				if (array_key_exists("Code", $api->data)) {
 					$result->code = $api->data["Code"];
 					$result->message = $api->data["Message"];
