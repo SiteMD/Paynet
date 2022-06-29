@@ -1,4 +1,4 @@
-# API PayNet
+# API Paynet
 
 Перед подключением платежной системы, убедитесь что соблюдаете следующие [требования](docs/EcommerceMerchantRequirements.md).
 
@@ -36,7 +36,7 @@ $paynet = new Paynet($merchant_code, $merchant_secret_key, $merchant_sale_area_c
 
 ## Доступные методы
 
-### Версия API PayNet
+### Версия API Paynet
 
 ```php
 $paynet->version();
