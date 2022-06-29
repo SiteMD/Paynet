@@ -316,6 +316,7 @@ class Paynet
 		$path = "/api/Payments/Send";
 		$params = [
 			"MerchantCode" => $this->merchant_code,
+			"SaleAreaCode" => $this->merchant_sale_area_code,
 			"Invoice" => $this->externalId,
 			"Currency" => $this->currency,
 			"Customer" => $this->customer,
