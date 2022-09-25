@@ -50,7 +50,7 @@ $paynet->version();
 Если не будет указан тип подключения, по умолчанию будет использоваться тестовый.
 
 ```php
-$paynet->setPaymentMode();
+$paynet->setMode();
 ```
 
 | Параметр | Тип  | Описание       |
@@ -128,29 +128,29 @@ $paynet->setCustomer($code, $nameFirst, $nameLast, $phoneNumber, $email, $countr
 ### Адрес для перенаправления при успешной оплаты
 
 ```php
-$paynet->setLinkUrlSucces($url);
+$paynet->setUrlSucces($url);
 ```
 
 ### Адрес для перенаправления при отклонение оплаты
 
 ```php
-$paynet->setLinkUrlCancel($url);
+$paynet->setUrlCancel($url);
 ```
 
 ### Инициализация оплаты
 
-При успешной авторизации и отправки соответствующих полей будет возвращен объект содержащий форму для перенаправления к сервису Paynet.
+При успешной авторизации и отправки соответствующих полей будет возвращена форма для перенаправления к сервису Paynet.
 
 ```php
-echo $paynet->initServerServerPayment()->data;
+echo $paynet->initPayment();
 ```
 
 ### Получение информации о зарегистрированном платеже
 
-Данный сервис метод предназначен для получения информации о платеже. Может использоваться в случае проблем связи на момент оплаты либо использовании информации об операци. Идентификатор `id` можно указать и через метод [`setExternalID($id)`](#уникальный-идентификатор-заказа).
+Данный сервис метод предназначен для получения информации о платеже. Может использоваться в случае проблем связи на момент оплаты либо использовании информации об операци.
 
 ```php
-$paynet->getStatusPayment($id);
+$paynet->getStatus($id);
 ```
 
 ## Дополнительные методы
@@ -176,23 +176,26 @@ $merchant_sale_area_code = "";
 $merchant_user = "";
 $merchant_password = "";
 $paynet = new Paynet($merchant_code, $merchant_secret_key, $merchant_sale_area_code, $merchant_user, $merchant_password);
+// Тип подключения, (0 тест, 1 реальный режим)
+$paynet->setMode(0);
 // Уникальный идентификатор заказа
-$paynet->setExternalID(rand());
+$id = rand();
+$paynet->setExternalID($id);
 // Список услуг включённых в платёж
 $name = "Service Name 1";
 $description = "Service Name Decription 1";
 $products = [
    array(
-      "Name" => "Product 1",
-      "Description" => "Description of product",
-      "UnitPrice" => 11.12,
-      "UnitProduct" => 2,
-      "Amount" => 22.24,
-      "Barcode" => 123456,
-      "Code" => "Product-1",
-      "LineNo" => 1,
-      "GroupId" => "1",
-      "GroupName" => "A group name of this product"
+      "Name" => "Product 1", // Наименовние продукта
+      "Description" => "Description of product", // Расширенное описание продукта
+      "UnitPrice" => 11.12, // Стоимость одной единицы продукта
+      "UnitProduct" => 2, // Количество продуктов
+      "Amount" => 22.24, // Стоимость продукта
+      "Barcode" => 123456, // Бар код продукта
+      "Code" => "Product-1", // Код продукта
+      "LineNo" => 1, // Порядковый номер продукта
+      "GroupId" => "1", // Идентификатор группы продукта
+      "GroupName" => "A group name of this product" // Описание группы продукта
    ),
    array(
       "Name" => "Product 2",
@@ -218,7 +221,8 @@ $country = "Payer country";
 $city = "Payer city";
 $address = "Payer address";
 $paynet->setCustomer($code, $nameFirst, $nameLast, $phoneNumber, $email, $country, $city, $address);
+$paynet->setUrlSucces('https://example.com/success');
+$paynet->setUrlCancel('https://example.com/cancel');
 // Инициализация оплаты
-$initPayment = $paynet->initServerServerPayment();
-if ($initPayment->code == 0) echo $initPayment->data;
+echo $paynet->initPayment();
 ```
