@@ -105,7 +105,7 @@ class Paynet
 	 */
 	public function setExternalID(int $id): void
 	{
-		if (is_numeric($id)) $this->externalId = (int)$id;
+		$this->externalId = $id;
 	}
 
 	/**
