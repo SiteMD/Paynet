@@ -2,7 +2,7 @@
 
 /**
  * @author Iulian Ceapa <info@sitemd.net>
- * @copyright © 2021-2022 SiteMD
+ * @copyright © 2021-2023 SiteMD
  */
 
 namespace Paynet;
