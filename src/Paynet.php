@@ -30,11 +30,11 @@ class Paynet
 	const PAYNET_TEST_URL_SERVER_SERVER = 'https://test.paynet.md/acquiring/getecom';
 	const PAYNET_TEST_URL_API = 'https://api-merchant.test.paynet.md';
 
-	private $merchant_code;
-	private $merchant_secret_key;
-	private $merchant_sale_area_code;
-	private $merchant_user;
-	private $merchant_password;
+	private $merchantCode;
+	private $merchantSecretKey;
+	private $merchantSaleAreaCode;
+	private $merchantUser;
+	private $merchantPassword;
 
 	public $mode = 0;
 	public $externalId;
@@ -48,19 +48,19 @@ class Paynet
 	public $customer = array();
 
 	/**
-	 * @param string $merchant_code Код продавца
-	 * @param string $merchant_secret_key Секретный ключ продавца
-	 * @param string $merchant_sale_area_code
-	 * @param string $merchant_user Пользователь
-	 * @param string $merchant_password Пароль пользователя
+	 * @param string $merchantCode Код продавца
+	 * @param string $merchantSecretKey Секретный ключ продавца
+	 * @param string $merchantSaleAreaCode
+	 * @param string $merchantUser Пользователь
+	 * @param string $merchantPassword Пароль пользователя
 	 */
-	public function __construct(string $merchant_code, string $merchant_secret_key, string $merchant_sale_area_code, string $merchant_user, string $merchant_password)
+	public function __construct(string $merchantCode, string $merchantSecretKey, string $merchantSaleAreaCode, string $merchantUser, string $merchantPassword)
 	{
-		$this->merchant_code = $merchant_code;
-		$this->merchant_secret_key = $merchant_secret_key;
-		$this->merchant_sale_area_code = $merchant_sale_area_code;
-		$this->merchant_user = $merchant_user;
-		$this->merchant_password = $merchant_password;
+		$this->merchantCode = $merchantCode;
+		$this->merchantSecretKey = $merchantSecretKey;
+		$this->merchantSaleAreaCode = $merchantSaleAreaCode;
+		$this->merchantUser = $merchantUser;
+		$this->merchantPassword = $merchantPassword;
 
 		$this->expiryDate = $this->expiryDate();
 	}
@@ -147,7 +147,7 @@ class Paynet
 			'Description' => $description,
 			'Products' => $products
 		];
-		array_push($this->services, $services);
+		$this->services[] = $services;
 	}
 
 	/**
@@ -274,8 +274,8 @@ class Paynet
 		$path = 'auth';
 		$params = [
 			'grant_type' => 'password',
-			'username' => $this->merchant_user,
-			'password' => $this->merchant_password
+			'username' => $this->merchantUser,
+			'password' => $this->merchantPassword
 		];
 
 		$api = $this->callApi($path, 'POST', $params);
@@ -316,8 +316,8 @@ class Paynet
 
 		$path = 'api/Payments/Send';
 		$params = [
-			'MerchantCode' => $this->merchant_code,
-			'SaleAreaCode' => $this->merchant_sale_area_code,
+			'MerchantCode' => $this->merchantCode,
+			'SaleAreaCode' => $this->merchantSaleAreaCode,
 			'Invoice' => $this->externalId,
 			'Currency' => $this->currency,
 			'Customer' => $this->customer,

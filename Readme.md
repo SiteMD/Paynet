@@ -26,16 +26,16 @@ require "vendor/autoload.php";
 ```php
 use Paynet\Paynet;
 
-$paynet = new Paynet($merchant_code, $merchant_secret_key, $merchant_sale_area_code, $merchant_user, $merchant_password);
+$paynet = new Paynet($merchantCode, $merchantSecretKey, $merchantSaleAreaCode, $merchantUser, $merchantPassword);
 ```
 
-|                          | Тип    | Поле                     |
-| :----------------------- | :----- | :----------------------- |
-| $merchant_code           | string | PartnerID (MerchantCode) |
-| $merchant_secret_key     | string | SecretKey                |
-| $merchant_sale_area_code | string | SaleAreaCode             |
-| $merchant_user           | string | User login               |
-| $merchant_password       | string | Password                 |
+|                       | Тип    | Поле                     |
+| :-------------------- | :----- | :----------------------- |
+| $merchantCode         | string | PartnerID (MerchantCode) |
+| $merchantSecretKey    | string | SecretKey                |
+| $merchantSaleAreaCode | string | SaleAreaCode             |
+| $merchantUser         | string | User login               |
+| $merchantPassword     | string | Password                 |
 
 ## Доступные методы
 
@@ -170,12 +170,12 @@ use Paynet\Paynet;
 // Подключение автозагрузчика
 require "vendor/autoload.php";
 // Укажите ваши данные
-$merchant_code = "";
-$merchant_secret_key = "";
-$merchant_sale_area_code = "";
-$merchant_user = "";
-$merchant_password = "";
-$paynet = new Paynet($merchant_code, $merchant_secret_key, $merchant_sale_area_code, $merchant_user, $merchant_password);
+$merchantCode = "";
+$merchantSecretKey = "";
+$merchantSaleAreaCode = "";
+$merchantUser = "";
+$merchantPassword = "";
+$paynet = new Paynet($merchantCode, $merchantSecretKey, $merchantSaleAreaCode, $merchantUser, $merchantPassword);
 // Тип подключения, (0 тест, 1 реальный режим)
 $paynet->setMode(0);
 // Уникальный идентификатор заказа
